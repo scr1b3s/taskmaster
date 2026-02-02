@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+    <div id="focus-hero" style="margin-bottom: 2rem;">
+        <article style="text-align: center; color: #666;">
+            <h3>Nenhuma tarefa selecionada</h3>
+            <p>Selecione uma tarefa na lista abaixo para começar a focar.</p>
+        </article>
+    </div>
+
+    <hr>
+
+    <hgroup>
+        <h3>Sua Lista</h3>
+    </hgroup>
+
+    <figure>
+        <table role="grid">
+            <thead>
+                <tr>
+                    <th scope="col">Status</th>
+                    <th scope="col">Tarefa</th>
+                    <th scope="col">Domínio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr class="{{ 'triaged' if task.domain_id else 'untriaged' }}">
+                    <td>
+                        {% if task.status == 'completed' %}✅{% else %}⬜{% endif %}
+                    </td>
+
+                    <td>
+                        <a href="#" 
+                           style="text-decoration: none; color: inherit; font-weight: bold;"
+                           hx-get="/tasks/{{ task.google_task_id }}/select"
+                           hx-target="#focus-hero"
+                           hx-swap="innerHTML">
+                           {{ task.title }}
+                        </a>
+                        {% if task.parent_id %}<small class="badge">Subtarefa</small>{% endif %}
+                    </td>
+
+                    <td>
+                        {% if task.domain_id %}
+                            {% include "fragments/badge.html" %}
+                        {% else %}
+                            <div role="group">
+                                <button class="btn-work outline" 
+                                    style="font-size: 0.7rem; padding: 5px 10px;"
+                                    hx-post="/tasks/{{ task.google_task_id }}/triage?domain=Work"
+                                    hx-target="closest td" hx-swap="innerHTML">Work</button>
+                                <button class="btn-personal outline" 
+                                    style="font-size: 0.7rem; padding: 5px 10px;"
+                                    hx-post="/tasks/{{ task.google_task_id }}/triage?domain=Personal"
+                                    hx-target="closest td" hx-swap="innerHTML">Personal</button>
+                            </div>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </figure>
+</section>
+{% endblock %}

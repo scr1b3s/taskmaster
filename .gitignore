@@ -211,3 +211,6 @@ __marimo__/
 *.db
 *.sqlite3
 
+# Google Credentials
+credentials.json
+token.json

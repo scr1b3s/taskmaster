@@ -1,0 +1,25 @@
+<form hx-post="/tasks/{{ task_id }}/log_interruption" 
+      hx-target="this" 
+      hx-swap="outerHTML"
+      style="margin: 0; padding: 10px; border: 1px solid #333; border-radius: 8px;">
+    
+    <label for="reason" style="font-size: 0.8rem; margin-bottom: 5px; display: block;">Motivo da Pausa:</label>
+    
+    <div class="grid">
+        <select name="reason" id="reason" required style="margin-bottom: 0;">
+            <option value="" disabled selected>Selecione...</option>
+            <option value="Ciclo Concluído">✅ Ciclo Pomodoro Concluído</option>
+            <option value="Biológico">🚽 Biológico / Fome</option>
+            <option value="Família">👨‍👩‍👧 Família / Casa</option>
+            <option value="Trabalho">💼 Demanda Urgente / Reunião</option>
+            <option value="Cansaço">😫 Cansaço Mental</option>
+            <option value="Procrastinação">📱 Redes Sociais / Procrastinação</option>
+            <option value="Outros">❓ Outros</option>
+        </select>
+        
+        <button type="submit" class="secondary" style="width: auto;">Salvar</button>
+    </div>
+
+    <input type="text" name="notes" placeholder="Detalhes (opcional)..." 
+           style="font-size: 0.8rem; margin-top: 10px; padding: 5px;">
+</form>

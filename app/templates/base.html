@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Taskmaster (FocusPipe)</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+	<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+	<style>
+		.badge {
+			font-size: 0.75em;
+			padding: 4px 10px;
+			border-radius: 12px;
+			font-weight: bold;
+			color: white;
+			background: #555;
+		}
+
+		.btn-work {
+			background-color: #3b82f6;
+			border-color: #3b82f6;
+			color: white;
+		}
+
+		.btn-personal {
+			background-color: #10b981;
+			border-color: #10b981;
+			color: white;
+		}
+
+		td {
+			vertical-align: middle;
+		}
+
+		tr.triaged {
+			border-left: 4px solid #10b981;
+			background-color: rgba(16, 185, 129, 0.05);
+		}
+
+		tr.untriaged {
+			border-left: 4px solid #ef4444;
+		}
+	</style>
+</head>
+
+<body>
+	<main class="container">
+		<nav>
+			<ul>
+				<li><strong>Taskmaster</strong></li>
+			</ul>
+			<ul>
+				<li><a href="/">Dashboard</a></li>
+				<li><a href="/sync" role="button" class="secondary">Sincronizar Google</a></li>
+			</ul>
+		</nav>
+
+		{% block content %}{% endblock %}
+	</main>
+</body>
+
+</html>

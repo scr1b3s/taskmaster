@@ -1,0 +1,82 @@
+<article>
+    <header>
+        <small>Foco Atual</small>
+        {% if task.domain %}
+        <span class="badge" style="background-color: {{ task.domain.color_hex }}; float: right;">
+            {{ task.domain.name }}
+        </span>
+        {% endif %}
+    </header>
+    
+    <h2 style="margin-bottom: 0.5rem;">{{ task.title }}</h2>
+    
+    <div id="timer-display" 
+         style="font-size: 4rem; font-family: monospace; font-weight: bold; text-align: center; margin: 20px 0; color: #fff;">
+        25:00
+    </div>
+
+    <footer class="grid" style="grid-template-columns: 2fr 1fr; gap: 10px;">
+        
+        <div id="main-control">
+            <button class="contrast" 
+                    hx-post="/tasks/{{ task.google_task_id }}/start" 
+                    hx-target="#main-control" 
+                    hx-swap="innerHTML"
+                    onclick="startTimer()">
+                ▶ Iniciar Foco
+            </button>
+        </div>
+
+        <div>
+            <button class="secondary outline" onclick="resetTimer()">
+                ↺ Reset
+            </button>
+        </div>
+
+    </footer>
+
+    <script>
+        if (typeof totalSeconds === 'undefined') {
+            var totalSeconds = 25 * 60; 
+            var timerInterval;
+        }
+
+        function updateDisplay() {
+            let minutes = Math.floor(totalSeconds / 60);
+            let seconds = totalSeconds % 60;
+            let display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById("timer-display").innerText = display;
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (totalSeconds > 0) {
+                    totalSeconds--;
+                    updateDisplay();
+                } else {
+                    clearInterval(timerInterval);
+                    alert("Ciclo concluído!");
+                    // TODO: Chamar um endpoint para marcar "Ciclo Completo"
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            // NÃO reseta a variável totalSeconds.
+            clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            totalSeconds = 25 * 60;
+            updateDisplay();
+            
+            // TODO: Se o timer estiver "Rodando" no Backend (botão Stop visível),
+            // o ideal seria clicar em Stop antes de Resetar para fechar o banco.
+            // Solução apenas visual. Já resolve a necessidade inicial.
+        }
+		
+        updateDisplay();
+    </script>
+</article>
